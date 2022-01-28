@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+    public Girl Girl;
+    public Demon Demon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +16,22 @@ public class InputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Input.GetButton("")
+        if (Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("Jump");
+        }
+        if (Input.GetButtonDown("SwitchChar"))
+        {
+            if (Girl.IsContollerTarget)
+            {
+                Girl.IsContollerTarget = false;
+                Demon.IsContollerTarget = true;
+            }
+            else
+            {
+                Girl.IsContollerTarget = true;
+                Demon.IsContollerTarget = false;
+            }
+        }
     }
 }
