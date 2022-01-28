@@ -221,7 +221,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -349,7 +349,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 7
-  JumpStrength: 1
+  JumpStrength: 20
+  fastestReJumpTime: 0.1
   IsContollerTarget: 1
 --- !u!61 &1606368692
 BoxCollider2D:
