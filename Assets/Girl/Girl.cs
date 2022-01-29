@@ -9,6 +9,8 @@ public class Girl : MonoBehaviour
     public float fastestReJumpTime;
     public bool IsContollerTarget;
 
+    public List<GameObject> RemainigHearts;
+
     new Rigidbody2D rigidbody;
 
     ReloadManager reloadManager;
@@ -20,6 +22,8 @@ public class Girl : MonoBehaviour
     const int totalJumpAirJumpCount = 1;
     int remainingAirJumps = totalJumpAirJumpCount;
 
+    //Coroutine currentRespawnAnimation;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -29,6 +33,7 @@ public class Girl : MonoBehaviour
     private void Start()
     {
         reloadManager = FindObjectOfType<ReloadManager>();
+        //remainigLife = UiHearts.Length;
     }
 
     // Update is called once per frame
@@ -82,7 +87,60 @@ public class Girl : MonoBehaviour
         if (transform.position.y < camBottomY)
         {
             // Has fallen. Deal damage or re-start game
+            if (TakeDamage())
+            {
+                ResetPosition();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns true iff the girl is still alive
+    /// </summary>
+    /// <returns></returns>
+    protected bool TakeDamage()
+    {
+        if (RemainigHearts.Count == 0)
+        {
             reloadManager.Died();
+            return false;
+        }
+        else
+        {
+            var rightmostHeart = RemainigHearts[RemainigHearts.Count - 1];
+            rightmostHeart.SetActive(false);
+            RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
+            return true;
+        }
+    }
+
+    protected void ResetPosition()
+    {
+        // Find the lowermost platform on the screen
+        var allPlatforms = FindObjectsOfType<Platform>();
+        var bottomOfScreen = GlobalManager.Instance.GetBottomOfScreen();
+        Platform bottomMostPlatform = null;
+        foreach (var item in allPlatforms)
+        {
+            float currY = item.transform.position.y;
+            if (currY > bottomOfScreen)
+            {
+                if (bottomMostPlatform == null || bottomMostPlatform.transform.position.y > currY)
+                {
+                    bottomMostPlatform = item;
+                }
+            }
+        }
+        if (bottomMostPlatform == null)
+        {
+            Debug.Log("Could not find a platform on the screen. You died");
+            reloadManager.Died();
+        }
+        else
+        {
+            // The multiplier should be the height of the girl
+            transform.position = bottomMostPlatform.transform.position + Vector3.up * 1;
+            StartCoroutine(AfterRespawnAnimation());
         }
     }
 
@@ -125,5 +183,16 @@ public class Girl : MonoBehaviour
         }
 
         wasJumpDown = isJumpDown;
+    }
+
+    IEnumerator AfterRespawnAnimation()
+    {
+        var renderer = GetComponent<SpriteRenderer>();
+        for (int i = 0; i < 7; i++)
+        {
+            renderer.enabled = !renderer.enabled;
+            yield return new WaitForSeconds(0.1f);
+        }
+        renderer.enabled = true;
     }
 }
