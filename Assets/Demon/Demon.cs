@@ -7,6 +7,8 @@ public class Demon : MonoBehaviour
 {
     public float Speed;
     public bool IsContollerTarget;
+    public Transform LeftWall;
+    public Transform RightWall;
 
     public GameObject Platform;
 
@@ -37,6 +39,10 @@ public class Demon : MonoBehaviour
 
             var deltaPos = new Vector3(horizontal, vertical, 0) * Speed * Time.deltaTime;
             gameObject.transform.Translate(deltaPos);
+
+            var pos = gameObject.transform.position;
+            pos.x = Mathf.Max(LeftWall.position.x + 1, pos.x);
+            pos.x = Mathf.Min(RightWall.position.x - 1, pos.x);
         }
     }
     private void PlacePlatform()

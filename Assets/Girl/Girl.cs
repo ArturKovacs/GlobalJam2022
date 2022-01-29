@@ -22,6 +22,8 @@ public class Girl : MonoBehaviour
     const int totalJumpAirJumpCount = 1;
     int remainingAirJumps = totalJumpAirJumpCount;
 
+    bool recoveringFromDamage = false;
+
     //Coroutine currentRespawnAnimation;
 
     private void Awake()
@@ -98,8 +100,10 @@ public class Girl : MonoBehaviour
     /// Returns true iff the girl is still alive
     /// </summary>
     /// <returns></returns>
-    protected bool TakeDamage()
+    public bool TakeDamage()
     {
+        if (recoveringFromDamage) return true;
+
         if (RemainigHearts.Count == 0)
         {
             reloadManager.Died();
@@ -110,6 +114,7 @@ public class Girl : MonoBehaviour
             var rightmostHeart = RemainigHearts[RemainigHearts.Count - 1];
             rightmostHeart.SetActive(false);
             RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
+            StartCoroutine(DamageTakingAnimation());
             return true;
         }
     }
@@ -140,7 +145,6 @@ public class Girl : MonoBehaviour
         {
             // The multiplier should be the height of the girl
             transform.position = bottomMostPlatform.transform.position + Vector3.up * 1;
-            StartCoroutine(AfterRespawnAnimation());
         }
     }
 
@@ -185,14 +189,22 @@ public class Girl : MonoBehaviour
         wasJumpDown = isJumpDown;
     }
 
-    IEnumerator AfterRespawnAnimation()
+    IEnumerator DamageTakingAnimation()
     {
-        var renderer = GetComponent<SpriteRenderer>();
-        for (int i = 0; i < 7; i++)
+        recoveringFromDamage = true;
+        try
         {
-            renderer.enabled = !renderer.enabled;
-            yield return new WaitForSeconds(0.1f);
+            var renderer = GetComponent<SpriteRenderer>();
+            for (int i = 0; i < 7; i++)
+            {
+                renderer.enabled = !renderer.enabled;
+                yield return new WaitForSeconds(0.1f);
+            }
+            renderer.enabled = true;
         }
-        renderer.enabled = true;
+        finally
+        {
+            recoveringFromDamage = false;
+        }
     }
 }
