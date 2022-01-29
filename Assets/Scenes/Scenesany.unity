@@ -529,12 +529,24 @@ PrefabInstance:
       objectReference: {fileID: 874408754}
     - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
       propertyPath: BulletSpeed
-      value: 7
+      value: 8.31
       objectReference: {fileID: 0}
     - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
       propertyPath: BottomScreen
       value: 
       objectReference: {fileID: 999940949}
+    - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
+      propertyPath: ValueOfChange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
+      propertyPath: ChangeByDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
+      propertyPath: DistanceOfChange
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2463539259867783681, guid: 41e5f8934bd4e094eb32f83ca358ab86, type: 3}
       propertyPath: GirlStartPosition
       value: 
@@ -639,6 +651,10 @@ PrefabInstance:
     - target: {fileID: 3103471599459995898, guid: e4ea43a0844a3be4889dfc8fe9b0746f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103471599459995900, guid: e4ea43a0844a3be4889dfc8fe9b0746f, type: 3}
+      propertyPath: RobotSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3103471599459995900, guid: e4ea43a0844a3be4889dfc8fe9b0746f, type: 3}
       propertyPath: PatrolLeftPosition
