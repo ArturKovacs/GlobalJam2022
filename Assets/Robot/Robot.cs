@@ -28,5 +28,10 @@ public class Robot : MonoBehaviour
     {
         var Direction = moveright ? 1 : -1;
         transform.Translate(new Vector3(Direction, 0, 0) * RobotSpeed * Time.deltaTime);
+
+        var pos = transform.position;
+        float targetY = GlobalManager.Instance.GetTopOfScreen() - 2;
+        pos.y = Mathf.Lerp(pos.y, targetY, Time.deltaTime * 2);
+        transform.position = pos;
     }
 }

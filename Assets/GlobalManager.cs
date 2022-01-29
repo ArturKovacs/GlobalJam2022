@@ -23,6 +23,11 @@ public class GlobalManager : MonoBehaviour
         var cam = Camera.main;
         return cam.transform.position.y - cam.orthographicSize;
     }
+    internal float GetTopOfScreen()
+    {
+        var cam = Camera.main;
+        return cam.transform.position.y + cam.orthographicSize;
+    }
 
     void Update()
     {
