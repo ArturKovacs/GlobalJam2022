@@ -12,13 +12,17 @@ public class GlobalManager : MonoBehaviour
     float BulletSpeedAtStart, BulletSpeed, DistanceOfChange, ValueOfChange, TimeChange, ReloadTime;
 
     [SerializeField]
-    Transform Girl, GirlStartPosition, BottomScreen;
+    Transform Girl, GirlStartPosition;
     [SerializeField]
     bool ChangeByDistance = true;
     [SerializeField]
     GameObject BulletPrefab, Robot;
 
-    internal float GetBottomOfScreen() => BottomScreen.position.y;
+    internal float GetBottomOfScreen()
+    {
+        var cam = Camera.main;
+        return cam.transform.position.y - cam.orthographicSize;
+    }
 
     void Update()
     {
