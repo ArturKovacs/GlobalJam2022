@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
-    public AudioSource audioSource;
     public bool GameIsPaused;
-    public Slider VolumeSlider;
+    public GameObject PauseMenu;
     [SerializeField]
     float BulletSpeedAtStart, BulletSpeed, DistanceOfChange, ValueOfChange, TimeChange, ReloadTime;
 
@@ -18,12 +17,8 @@ public class GlobalManager : MonoBehaviour
     [SerializeField]
     bool ChangeByDistance = true;
     [SerializeField]
-    GameObject BulletPrefab, Robot;
+    GameObject BulletPrefab, RobotMuzzle;
 
-    public void SetVolume()
-    {
-        audioSource.volume = VolumeSlider.value;
-    }
     internal float GetBottomOfScreen()
     {
         var cam = Camera.main;
@@ -38,6 +33,14 @@ public class GlobalManager : MonoBehaviour
     void Update()
     {
         SetBulletSpeed();
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+            bool shouldPause = !PauseMenu.activeSelf;
+            PauseMenu.SetActive(shouldPause);
+            if (shouldPause) Time.timeScale = 0;
+            else Time.timeScale = 1;
+        }
     }
 
     internal float GetBulletSpeed() => BulletSpeed;
@@ -53,7 +56,7 @@ public class GlobalManager : MonoBehaviour
 
     private void Shoot()
     {
-        var bullet = Instantiate(BulletPrefab, Robot.transform.position, Quaternion.identity);
+        var bullet = Instantiate(BulletPrefab, RobotMuzzle.transform.position, Quaternion.identity);
     }
 
     void Start()
@@ -63,7 +66,6 @@ public class GlobalManager : MonoBehaviour
         if (ChangeByDistance) SetBulletSpeed();
         else StartCoroutine(SpeedUpTimer());
         StartCoroutine(BulletShooter());
-        VolumeSlider.SetValueWithoutNotify(1f);
     }
 
     public IEnumerator SpeedUpTimer()
@@ -83,5 +85,4 @@ public class GlobalManager : MonoBehaviour
             BulletSpeed = BulletSpeedAtStart + ((int)(DistanceFromStart / DistanceOfChange) * ValueOfChange);
         }
     }
-
 }

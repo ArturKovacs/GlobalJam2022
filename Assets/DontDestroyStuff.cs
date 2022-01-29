@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DontDestroyStuff : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public Slider VolumeSlider;
+
     static DontDestroyStuff Instance = null;
 
     private void Awake()
@@ -24,15 +28,14 @@ public class DontDestroyStuff : MonoBehaviour
             // in the Awake function but let's keep it for safety
             return;
         }
-
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
+
+        VolumeSlider.SetValueWithoutNotify(1f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetVolume()
     {
-        
+        audioSource.volume = VolumeSlider.value;
     }
 }
