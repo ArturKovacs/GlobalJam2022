@@ -24,11 +24,16 @@ public class Girl : MonoBehaviour
 
     bool recoveringFromDamage = false;
 
+    SpriteRenderer spriteRenderer;
+    Animator animator;
+
     //Coroutine currentRespawnAnimation;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         standingOnPlatforms = new HashSet<Platform>();
     }
 
@@ -41,7 +46,7 @@ public class Girl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -186,6 +191,16 @@ public class Girl : MonoBehaviour
             }
         }
 
+        animator.enabled = horizontal != 0;
+        if (horizontal > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        if (horizontal < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        
         wasJumpDown = isJumpDown;
     }
 

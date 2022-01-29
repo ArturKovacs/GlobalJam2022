@@ -41,8 +41,9 @@ public class Demon : MonoBehaviour
             gameObject.transform.Translate(deltaPos);
 
             var pos = gameObject.transform.position;
-            pos.x = Mathf.Max(LeftWall.position.x + 1, pos.x);
-            pos.x = Mathf.Min(RightWall.position.x - 1, pos.x);
+            pos.x = Mathf.Max(LeftWall.position.x + 2, pos.x);
+            pos.x = Mathf.Min(RightWall.position.x - 2, pos.x);
+            gameObject.transform.position = pos;
         }
     }
     private void PlacePlatform()
