@@ -2002,8 +2002,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   IsContollerTarget: 0
-  LeftWall: {fileID: 2008276453}
-  RightWall: {fileID: 757787820}
+  LeftWall: {fileID: 2008276456}
+  RightWall: {fileID: 757787823}
   Platform: {fileID: 5443479100432253951, guid: cc321b9356cffef4b8798dea61fd0faa, type: 3}
 --- !u!1 &1979497277
 GameObject:
