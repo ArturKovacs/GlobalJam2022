@@ -74,7 +74,7 @@ public class GlobalManager : MonoBehaviour
         if (ChangeByDistance)
         {
             var DistanceFromStart = Vector2.Distance(Girl.position, GirlStartPosition.position);
-            BulletSpeed = BulletSpeedAtStart + ((DistanceFromStart / DistanceOfChange) * ValueOfChange);
+            BulletSpeed = BulletSpeedAtStart + ((int)(DistanceFromStart / DistanceOfChange) * ValueOfChange);
         }
     }
 
