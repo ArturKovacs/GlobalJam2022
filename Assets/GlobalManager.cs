@@ -11,22 +11,22 @@ public class GlobalManager : MonoBehaviour
     [SerializeField]
     float BulletSpeedAtStart, BulletSpeed, DistanceOfChange, ValueOfChange, TimeChange, ReloadTime;
 
-    internal float GetBulletSpeed() => BulletSpeed;
-
     [SerializeField]
-    Transform Girl, GirlStartPosition;
-    [SerializeField]
-    Transform BulletAppaeringHeight;
+    Transform Girl, GirlStartPosition, BottomScreen;
     [SerializeField]
     bool ChangeByDistance = true;
     [SerializeField]
     GameObject BulletPrefab, Robot;
+
+    internal float GetBottomOfScreen() => BottomScreen.position.y;
 
     void Update()
     {
         SetBulletSpeed();
         
     }
+
+    internal float GetBulletSpeed() => BulletSpeed;
 
     private IEnumerator BulletShooter()
     {
