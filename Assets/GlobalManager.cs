@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
-
+    public AudioSource audioSource;
     public bool GameIsPaused;
+    public Slider VolumeSlider;
     [SerializeField]
     float BulletSpeedAtStart, BulletSpeed, DistanceOfChange, ValueOfChange, TimeChange, ReloadTime;
 
@@ -18,6 +20,10 @@ public class GlobalManager : MonoBehaviour
     [SerializeField]
     GameObject BulletPrefab, Robot;
 
+    public void SetVolume()
+    {
+        audioSource.volume = VolumeSlider.value;
+    }
     internal float GetBottomOfScreen()
     {
         var cam = Camera.main;
@@ -27,7 +33,6 @@ public class GlobalManager : MonoBehaviour
     void Update()
     {
         SetBulletSpeed();
-        
     }
 
     internal float GetBulletSpeed() => BulletSpeed;
@@ -53,6 +58,7 @@ public class GlobalManager : MonoBehaviour
         if (ChangeByDistance) SetBulletSpeed();
         else StartCoroutine(SpeedUpTimer());
         StartCoroutine(BulletShooter());
+        VolumeSlider.SetValueWithoutNotify(1f);
     }
 
     public IEnumerator SpeedUpTimer()
