@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class DontDestroyStuff : MonoBehaviour
 {
-    // USE THIS INSEAD OF "Play On Awake" of the Audio source to avoid
-    // starting the audio again at the scene start
-    public AudioSource[] playOnAwake;
-
     static DontDestroyStuff Instance = null;
 
     private void Awake()
@@ -32,15 +28,6 @@ public class DontDestroyStuff : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
-
-        // Start audio sources
-        foreach (var item in playOnAwake)
-        {
-            if (!item.isPlaying)
-            {
-                item.Play();
-            }
-        } 
     }
 
     // Update is called once per frame
