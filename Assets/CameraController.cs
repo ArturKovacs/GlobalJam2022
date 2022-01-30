@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     public Girl Girl;
     public Demon Demon;
     public Gradient SkyColors;
+    public float ElevationColorStretch;
 
     Camera cam;
 
@@ -31,6 +32,6 @@ public class CameraController : MonoBehaviour
         pos.y = Mathf.Lerp(transform.position.y, targetY, Time.deltaTime * Speed);
         transform.position = pos;
 
-        cam.backgroundColor = SkyColors.Evaluate(pos.y / 10);
+        cam.backgroundColor = SkyColors.Evaluate(pos.y / ElevationColorStretch);
     }
 }

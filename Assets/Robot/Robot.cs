@@ -13,8 +13,7 @@ public class Robot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GlobalManager.Instance.GameIsPaused)
-            Move();
+        Move();
         TurnAround();
     }
 

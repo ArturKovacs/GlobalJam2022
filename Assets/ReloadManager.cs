@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ReloadManager : MonoBehaviour
@@ -9,6 +10,9 @@ public class ReloadManager : MonoBehaviour
     public RectTransform UiGradient;
     public RectTransform UiBlack;
     public RectTransform UiBlack2Transparent;
+
+    public GameObject GameOverPanel;
+    public Text GameOverScoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +28,14 @@ public class ReloadManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F2))
         {
             ReloadGame();
+        }
+
+        if (GameOverPanel.activeSelf)
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                ReloadGame();
+            }
         }
     }
 
@@ -41,8 +53,10 @@ public class ReloadManager : MonoBehaviour
     protected IEnumerator DiedCoroutine()
     {
         Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1);
         yield return StartCoroutine(PlayDeathAnimation());
-        ReloadGame();
+        GameOverScoreText.text = string.Format("Reached Altitude: {0}", GlobalManager.Instance.Altitude);
+        GameOverPanel.SetActive(true);
     }
 
     public IEnumerator PlayDeathAnimation()

@@ -16,21 +16,19 @@ public class InputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("Jump");
-        }
         if (Input.GetButtonDown("SwitchChar"))
         {
             if (Girl.IsContollerTarget)
             {
                 Girl.IsContollerTarget = false;
                 Demon.IsContollerTarget = true;
+                GetComponentInChildren<ActiveAnim>().Activate(Demon.transform);
             }
             else
             {
                 Girl.IsContollerTarget = true;
                 Demon.IsContollerTarget = false;
+                GetComponentInChildren<ActiveAnim>().Activate(Girl.transform);
             }
         }
     }

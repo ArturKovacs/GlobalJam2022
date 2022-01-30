@@ -166,7 +166,7 @@ public class Girl : MonoBehaviour
         if (IsContollerTarget)
         {
             horizontal = Input.GetAxis("Horizontal");
-            isJumpDown = Input.GetButton("Submit");
+            isJumpDown = Input.GetButton("Jump");
         }
 
         // F=m*a
@@ -194,11 +194,15 @@ public class Girl : MonoBehaviour
         animator.enabled = horizontal != 0;
         if (horizontal > 0)
         {
-            spriteRenderer.flipX = false;
+            var euler = transform.rotation.eulerAngles;
+            euler.y = 0;
+            transform.rotation = Quaternion.Euler(euler);
         }
         if (horizontal < 0)
         {
-            spriteRenderer.flipX = true;
+            var euler = transform.rotation.eulerAngles;
+            euler.y = 180;
+            transform.rotation = Quaternion.Euler(euler);
         }
         
         wasJumpDown = isJumpDown;

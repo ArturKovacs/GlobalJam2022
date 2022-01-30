@@ -31,7 +31,9 @@ public class DontDestroyStuff : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        VolumeSlider.SetValueWithoutNotify(1f);
+        VolumeSlider.SetValueWithoutNotify(audioSource.volume);
+
+        GlobalManager.Instance.ShowPauseMenu(true);
     }
 
     public void SetVolume()
