@@ -5629,7 +5629,7 @@ MonoBehaviour:
   Speed: 10
   JumpStrength: 25
   fastestReJumpTime: 0.1
-  IsContollerTarget: 1
+  IsContollerTarget: 0
   JumpSound: {fileID: 8300000, guid: fd7c17490bb412144a51bfe07b449836, type: 3}
   AirJumpSound: {fileID: 8300000, guid: 47ae4aafb5a276f4db9d847d69960d18, type: 3}
   RemainigHearts:
@@ -5741,7 +5741,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.389
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6751,7 +6751,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: db007601f367b3e4dae50b09effefcd7, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -6865,7 +6865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
-  IsContollerTarget: 0
+  IsContollerTarget: 1
   LeftWall: {fileID: 2008276456}
   RightWall: {fileID: 757787823}
   Platform: {fileID: 5443479100432253951, guid: cc321b9356cffef4b8798dea61fd0faa, type: 3}

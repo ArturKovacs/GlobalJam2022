@@ -186,14 +186,19 @@ public class Girl : MonoBehaviour
             remainingAirJumps = totalJumpAirJumpCount;
         }
 
-        float horizontal = 0;
-        bool isJumpDown = false;
+        float horizontal;
+        bool isJumpDown;
         if (IsContollerTarget)
         {
-            horizontal = Input.GetAxis("Horizontal");
-            isJumpDown = Input.GetButton("Jump");
+            horizontal = Input.GetAxis("KeyHorizontal");
+            isJumpDown = Input.GetButton("KeyJump");
         }
-
+        else
+        {
+            horizontal = Input.GetAxis("JoyHorizontal");
+            isJumpDown = Input.GetButton("JoyJump");
+        }
+        
         // F=m*a
         // a = ds/dt
         var targetSpeed = horizontal * Speed;
@@ -205,8 +210,8 @@ public class Girl : MonoBehaviour
             var elapsedSinceLastJump = Time.time - lastJumpTime;
             if (isJumpDown && !wasJumpDown && elapsedSinceLastJump > fastestReJumpTime)
             {
-                if (touchingGround) audioSource.PlayOneShot(JumpSound);
-                else audioSource.PlayOneShot(AirJumpSound);
+                if (touchingGround) audioSource.PlayOneShot(JumpSound, 0.7f);
+                else audioSource.PlayOneShot(AirJumpSound, 1);
                 
                 var vel = rigidbody.velocity;
                 vel.y = JumpStrength;

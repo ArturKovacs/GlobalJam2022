@@ -25,7 +25,14 @@ public class Demon : MonoBehaviour
     {
         if (IsContollerTarget)
         {
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("KeySubmit"))
+            {
+                PlacePlatform();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("JoySubmit"))
             {
                 PlacePlatform();
             }
@@ -34,19 +41,25 @@ public class Demon : MonoBehaviour
 
     private void FixedUpdate()
     {
+        float vertical;
+        float horizontal;
         if (IsContollerTarget)
         {
-            float vertical = Input.GetAxis("Vertical");
-            float horizontal = Input.GetAxis("Horizontal");
-
-            var deltaPos = new Vector3(horizontal, vertical, 0) * Speed * Time.deltaTime;
-            gameObject.transform.Translate(deltaPos);
-
-            var pos = gameObject.transform.position;
-            pos.x = Mathf.Max(LeftWall.position.x + 2, pos.x);
-            pos.x = Mathf.Min(RightWall.position.x - 2, pos.x);
-            gameObject.transform.position = pos;
+            vertical = Input.GetAxis("KeyVertical");
+            horizontal = Input.GetAxis("KeyHorizontal");
         }
+        else
+        {
+            vertical = Input.GetAxis("JoyVertical");
+            horizontal = Input.GetAxis("JoyHorizontal");
+        }
+        var deltaPos = new Vector3(horizontal, vertical, 0) * Speed * Time.deltaTime;
+        gameObject.transform.Translate(deltaPos);
+
+        var pos = gameObject.transform.position;
+        pos.x = Mathf.Max(LeftWall.position.x + 2, pos.x);
+        pos.x = Mathf.Min(RightWall.position.x - 2, pos.x);
+        gameObject.transform.position = pos;
     }
     private void PlacePlatform()
     {
