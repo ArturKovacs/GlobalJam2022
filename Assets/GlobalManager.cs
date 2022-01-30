@@ -11,6 +11,10 @@ public class GlobalManager : MonoBehaviour
 
     public Text AltitudeText;
 
+    public AudioClip ShootSound;
+
+    public AudioSource AudioSource;
+
     [SerializeField]
     float BulletSpeedAtStart, BulletSpeed, DistanceOfChange, ValueOfChange, TimeChange, ReloadTime;
 
@@ -22,17 +26,23 @@ public class GlobalManager : MonoBehaviour
     [SerializeField]
     GameObject BulletPrefab, RobotMuzzle, RobotGunPivot, Robot;
 
+    AudioSource robotAudioSource;
+
     public int Altitude { get; protected set; }
 
-    internal float GetBottomOfScreen()
+    private void Awake()
     {
-        var cam = Camera.main;
-        return cam.transform.position.y - cam.orthographicSize;
+        Instance = this;
     }
-    internal float GetTopOfScreen()
+
+    void Start()
     {
-        var cam = Camera.main;
-        return cam.transform.position.y + cam.orthographicSize;
+        BulletSpeed = BulletSpeedAtStart;
+        robotAudioSource = Robot.GetComponent<AudioSource>();
+        AudioSource = GetComponent<AudioSource>();
+        SetBulletSpeedByDist();
+        if (!ChangeByDistance) StartCoroutine(SpeedUpTimer());
+        StartCoroutine(BulletShooter());
     }
 
     void Update()
@@ -47,6 +57,17 @@ public class GlobalManager : MonoBehaviour
         {
             TogglePauseMenu();
         }
+    }
+
+    internal float GetBottomOfScreen()
+    {
+        var cam = Camera.main;
+        return cam.transform.position.y - cam.orthographicSize;
+    }
+    internal float GetTopOfScreen()
+    {
+        var cam = Camera.main;
+        return cam.transform.position.y + cam.orthographicSize;
     }
 
     private void TurnRobotGun()
@@ -86,23 +107,13 @@ public class GlobalManager : MonoBehaviour
 
     private void Shoot()
     {
+        robotAudioSource.PlayOneShot(ShootSound);
         var bullet = Instantiate(BulletPrefab, RobotMuzzle.transform.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().Velocity = -RobotGunPivot.transform.up * BulletSpeed;
         bullet.transform.up = RobotGunPivot.transform.up;
     }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    void Start()
-    {   
-        BulletSpeed = BulletSpeedAtStart;
-        SetBulletSpeedByDist();
-        if (!ChangeByDistance) StartCoroutine(SpeedUpTimer());
-        StartCoroutine(BulletShooter());
-    }
+    
 
     public IEnumerator SpeedUpTimer()
     {

@@ -12,10 +12,12 @@ public class Demon : MonoBehaviour
 
     public GameObject Platform;
 
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class Demon : MonoBehaviour
     }
     private void PlacePlatform()
     {
+        audioSource.Play();
         var offset = new Vector3(0, 2, 0);
         var platformPos = transform.position + offset;
         Instantiate(Platform, platformPos, Quaternion.identity);

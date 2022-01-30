@@ -1,6 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum GirlDamageTaken
+{
+    NoDamage,
+
+    /// <summary>
+    /// Damage was taken and the girl died
+    /// </summary>
+    Died,
+
+    /// <summary>
+    /// Damage was taken and the girl is still alive
+    /// </summary>
+    Alive
+}
+
 
 public class Girl : MonoBehaviour
 {
@@ -8,6 +25,9 @@ public class Girl : MonoBehaviour
     public float JumpStrength;
     public float fastestReJumpTime;
     public bool IsContollerTarget;
+
+    public AudioClip JumpSound;
+    public AudioClip AirJumpSound;
 
     public List<GameObject> RemainigHearts;
 
@@ -26,6 +46,8 @@ public class Girl : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     Animator animator;
+    AudioSource audioSource;
+    
 
     //Coroutine currentRespawnAnimation;
 
@@ -34,6 +56,7 @@ public class Girl : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         standingOnPlatforms = new HashSet<Platform>();
     }
 
@@ -94,25 +117,21 @@ public class Girl : MonoBehaviour
         if (transform.position.y < camBottomY)
         {
             // Has fallen. Deal damage or re-start game
-            if (TakeDamage())
+            if (TakeDamage() != GirlDamageTaken.Died)
             {
                 ResetPosition();
             }
         }
     }
 
-    /// <summary>
-    /// Returns true iff the girl is still alive
-    /// </summary>
-    /// <returns></returns>
-    public bool TakeDamage()
+    public GirlDamageTaken TakeDamage()
     {
-        if (recoveringFromDamage) return true;
+        if (recoveringFromDamage) return GirlDamageTaken.NoDamage;
 
-        if (RemainigHearts.Count == 0)
+        if (RemainigHearts.Count == 1)
         {
             reloadManager.Died();
-            return false;
+            return GirlDamageTaken.Died;
         }
         else
         {
@@ -120,7 +139,13 @@ public class Girl : MonoBehaviour
             rightmostHeart.SetActive(false);
             RemainigHearts.RemoveAt(RemainigHearts.Count - 1);
             StartCoroutine(DamageTakingAnimation());
-            return true;
+
+            if (RemainigHearts.Count == 1)
+            {
+                StartCoroutine(BlinkHeartAnimation(RemainigHearts[0].GetComponent<Image>()));
+            }
+
+            return GirlDamageTaken.Alive;
         }
     }
 
@@ -180,6 +205,9 @@ public class Girl : MonoBehaviour
             var elapsedSinceLastJump = Time.time - lastJumpTime;
             if (isJumpDown && !wasJumpDown && elapsedSinceLastJump > fastestReJumpTime)
             {
+                if (touchingGround) audioSource.PlayOneShot(JumpSound);
+                else audioSource.PlayOneShot(AirJumpSound);
+                
                 var vel = rigidbody.velocity;
                 vel.y = JumpStrength;
                 rigidbody.velocity = vel;
@@ -224,6 +252,15 @@ public class Girl : MonoBehaviour
         finally
         {
             recoveringFromDamage = false;
+        }
+    }
+
+    IEnumerator BlinkHeartAnimation(Image target)
+    {
+        while (target)
+        {
+            target.enabled = !target.enabled;
+            yield return new WaitForSeconds(0.15f);
         }
     }
 }
